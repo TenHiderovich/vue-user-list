@@ -1,64 +1,43 @@
 <template>
   <v-app id="inspire">
-      <v-app-bar 
-        app 
-        color="primary" 
-        dark
+    <div class="list-info">
+      <h2>Количество пользователей: {{ usersCount }}</h2>
+      <h2>Сумма id видимых: {{ usersIdCount }}</h2>
+    </div>
+
+    <UserList 
+      @show-snackbar="showSnackbar" 
+      @show-dangerous-snackbar="showDangerousSnackbar"
+      @edit-user-modal="editUserModal"
+      />
+
+    <v-dialog
+      v-model="dialogVisibility"
+      max-width="350">
+      <UserModal 
+        v-if="dialogVisibility" 
+        :user="currentUser"
+        :handleSubmit="handleSubmitModal"
+      />
+    </v-dialog>
+
+    <v-btn 
+      class="add-btn" 
+      fab 
+      dark 
+      color="primary" 
+      @click="addUserModal"
+    >
+      <v-icon dark>mdi-plus</v-icon>
+    </v-btn>
+
+    <v-snackbar
+      :timeout="snackbar.timeout"
+      v-model="snackbar.visibility"
+      :color="snackbar.color"
       >
-        <v-toolbar-title>Users</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn 
-          text 
-          large 
-          color="white" 
-          @click="logout"
-        >
-          Logout
-        </v-btn>
-      </v-app-bar>
-
-      <v-main>
-        <v-container fluid>
-          <div class="list-info">
-            <h2>Количество пользователей: {{ usersCount }}</h2>
-            <h2>Сумма id видимых: {{ usersIdCount }}</h2>
-          </div>
-
-          <UserList 
-            @show-snackbar="showSnackbar" 
-            @show-dangerous-snackbar="showDangerousSnackbar"
-            @edit-user-modal="editUserModal"
-            />
-        </v-container>
-      </v-main>
-
-      <v-dialog
-        v-model="dialogVisibility"
-        max-width="350">
-        <UserModal 
-          v-if="dialogVisibility" 
-          :user="currentUser"
-          :handleSubmit="handleSubmitModal"
-        />
-      </v-dialog>
-
-      <v-btn 
-        class="add-btn" 
-        fab 
-        dark 
-        color="primary" 
-        @click="addUserModal"
-      >
-        <v-icon dark>mdi-plus</v-icon>
-      </v-btn>
-
-      <v-snackbar
-        :timeout="snackbar.timeout"
-        v-model="snackbar.visibility"
-        :color="snackbar.color"
-        >
-        {{ snackbar.text }}
-      </v-snackbar>
+      {{ snackbar.text }}
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -92,7 +71,6 @@ export default {
   },
 
   computed: {
-    authToken,
     ...mapGetters(['allUsersWithoutHide', 'usersCount', 'usersIdCount']),
   },
 

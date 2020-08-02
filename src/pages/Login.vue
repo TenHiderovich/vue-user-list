@@ -1,16 +1,5 @@
 <template>
-  <v-container 
-    fluid 
-    class="height_full"
-  >
-    <v-row
-      align="center"
-      justify="center"
-      class="height_full"
-      >
-      <LoginForm />
-    </v-row>
-  </v-container>
+  <LoginForm />
 </template>
 
 <script>
@@ -23,9 +12,3 @@ export default {
   },
 }
 </script>
-
-<style lang="sass" scoped>
-  .height
-    &_full
-      height: 100%
-</style>

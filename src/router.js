@@ -13,6 +13,9 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login,
+      meta: {
+        layout: 'Empty'
+      },
       beforeEnter(to, from, next) {
         const { token } = localStorage;
         token ? next({ name: 'Users' }) : next();
@@ -22,6 +25,9 @@ export default new Router({
       path: '/users',
       name: 'Users',
       component: Users,
+      meta: {
+        layout: 'Main'
+      },
       beforeEnter(to, from, next) {
         const { token } = localStorage;
         token ? next() : next({ name: 'Login' });
