@@ -18,7 +18,7 @@
       small 
       outlined 
       color="success" 
-      @click="$emit('handle-edit-modal', user)"
+      @click="handleEditModal"
       class="user-card__edit-btn" 
     >
       <v-icon dark>mdi-pencil</v-icon>
@@ -39,11 +39,13 @@ export default {
       last_name: String,
       email: String,
     },
-    handleEditModal: Function
   },
   methods: {
     ...mapActions(['editUser']),
     ...mapMutations(['updateUser']),
+    handleEditModal() {
+      this.$emit('handle-edit-modal', this.user);
+    }
   }
 }
 </script>

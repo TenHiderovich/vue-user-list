@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       loading: true,
+      changedUserId: null
     }
   },
 
@@ -47,17 +48,11 @@ export default {
   watch: {
     allUsers(newValue, oldValue) {
       if (newValue.length === oldValue.length) {
-        const changedUser = newValue.filter((item) => {
-          return JSON.stringify(oldValue).indexOf(JSON.stringify(item)) === -1;
-        });
-        
-        if (changedUser.length) {
-          const userId = changedUser[0].id;
-          const oldUserDate = oldValue.find(user => user.id === userId);
+        const newUserDate = newValue.find(user => user.id === this.changedUserId);
+        const oldUserDate = oldValue.find(user => user.id === this.changedUserId);
 
-          if (changedUser[0].is_hide !== oldUserDate.is_hide) {
-            this.$emit('show-snackbar', `User ${userId} was hidden`);
-          }
+        if (newUserDate.is_hide && newUserDate.is_hide !== oldUserDate.is_hide) {
+          this.$emit('show-snackbar', `User ${this.changedUserId} was hidden`);
         }
       }
     }
@@ -79,6 +74,7 @@ export default {
     ...mapActions(['fetchUsers', 'editUser', 'addUser']),
     ...mapMutations(['updateUsers']),
     handleEditModal(data) {
+      this.changedUserId = data.id;
       this.$emit('edit-user-modal', data);
     },
   },
