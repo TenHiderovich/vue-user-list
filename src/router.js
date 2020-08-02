@@ -31,10 +31,11 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   const { token } = localStorage;
-  const requieAute = to.matched.some(record => record.meta.auth);
-  if (requieAute && !token) {
+  const requieAuth = to.matched.some(record => record.meta.auth);
+
+  if (requieAuth && !token) {
     next({ name: 'Login' });
-  } else if(to.name === 'Login' && token) {
+  } else if (to.name === 'Login' && token) {
     next({ name: 'Users' });
   } else {
     next();
